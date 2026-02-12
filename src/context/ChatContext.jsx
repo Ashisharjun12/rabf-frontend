@@ -19,8 +19,8 @@ export const ChatProvider = ({ children }) => {
     useEffect(() => {
         if (user && !socketRef.current) {
             // Initialize Socket
-            // Replace with your backend URL
-            const newSocket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
+            const SOCKET_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+            const newSocket = io(SOCKET_URL, {
                 withCredentials: true,
                 transports: ["websocket", "polling"], // prioritize websocket
                 reconnection: true,
