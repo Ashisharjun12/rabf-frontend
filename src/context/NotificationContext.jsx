@@ -19,7 +19,7 @@ export const NotificationProvider = ({ children }) => {
             // Getting base URL from window location or hardcoded if separate
             // Ideally import API_BASE_URL from api.js but it might not be exported as string cleanly or might be relative
             // For now assuming localhost:3000 as per api.js
-            const API_URL = "http://localhost:3000/api";
+            const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
 
             // We need to pass token? 
             // EventSource doesn't support headers easily. 
