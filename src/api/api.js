@@ -61,4 +61,8 @@ export const getChatDetails = (userId, page = 1) => api.get(`/chats/${userId}?pa
 export const getChatMessages = (id) => api.get(`/chats/${id}`); // Potentially redundant if getChatDetails covers it, but keeping for now
 export const sendMessage = (data) => api.post("/chats", data);
 
+// Review API
+export const createReview = (data) => api.post("/reviews", data);
+export const getReviews = (boyfriendId, page = 1) => api.get(`/reviews/${boyfriendId}?page=${page}`);
+
 export default api;

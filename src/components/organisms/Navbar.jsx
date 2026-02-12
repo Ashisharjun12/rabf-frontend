@@ -35,7 +35,7 @@ const Navbar = () => {
                 {/* Logo - Absolute Left */}
                 <div className="absolute left-6">
                     <Link to="/" className="text-xl font-bold tracking-tight bg-gradient-to-r from-pink-500 to-violet-600 bg-clip-text text-transparent">
-                        Rent-A-Boyfriend
+                        RentYourDate
                     </Link>
                 </div>
 

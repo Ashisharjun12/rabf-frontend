@@ -183,7 +183,7 @@ const CreateBoyfriendProfile = () => { // Removed images prop from here
                                             onChange={handleChange}
                                         >
                                             <option value="" disabled>Select Age</option>
-                                            {Array.from({ length: 69 - 18 + 1 }, (_, i) => 18 + i).map((age) => (
+                                            {Array.from({ length: 70 - 18 + 1 }, (_, i) => 18 + i).map((age) => (
                                                 <option key={age} value={age}>
                                                     {age}
                                                 </option>

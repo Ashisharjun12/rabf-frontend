@@ -22,6 +22,9 @@ export const ChatProvider = ({ children }) => {
             // Replace with your backend URL
             const newSocket = io("http://localhost:3000", {
                 withCredentials: true,
+                transports: ["websocket", "polling"], // prioritize websocket
+                reconnection: true,
+                reconnectionAttempts: 5
             });
 
             socketRef.current = newSocket;
@@ -35,8 +38,12 @@ export const ChatProvider = ({ children }) => {
                 setMessages((prev) => [...prev, message]);
             });
 
-            newSocket.on("disconnect", () => {
-                console.log("Disconnected from Socket.IO server");
+            newSocket.on("disconnect", (reason) => {
+                console.log("Disconnected from Socket.IO server:", reason);
+            });
+
+            newSocket.on("connect_error", (err) => {
+                console.error("Socket Connection Error:", err.message);
             });
 
             return () => {

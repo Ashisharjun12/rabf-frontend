@@ -29,7 +29,7 @@ const Privacy = () => {
                     </CardHeader>
                     <CardContent className="pt-6 text-muted-foreground leading-relaxed">
                         <p>
-                            At <strong>Rent-A-Boyfriend</strong>, we value the trust you place in us. This Privacy Policy explains what data we collect, why we collect it, and how we safeguard your information. By using our platform, you agree to the practices described in this policy.
+                            At <strong>RentYourDate</strong>, we value the trust you place in us. This Privacy Policy explains what data we collect, why we collect it, and how we safeguard your information. By using our platform, you agree to the practices described in this policy.
                         </p>
                     </CardContent>
                 </Card>

@@ -9,7 +9,7 @@ const Terms = () => {
                     Terms of Service
                 </h1>
                 <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-                    Please read these terms carefully before using our platform. By accessing or using Rent-A-Boyfriend, you agree to be bound by these terms.
+                    Please read these terms carefully before using our platform. By accessing or using RentYourDate, you agree to be bound by these terms.
                 </p>
                 <p className="text-sm text-muted-foreground mt-2">
                     Last Updated: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
@@ -29,7 +29,7 @@ const Terms = () => {
                     </CardHeader>
                     <CardContent className="pt-6 text-muted-foreground leading-relaxed">
                         <p>
-                            By creating an account, accessing, or using <strong>Rent-A-Boyfriend</strong>, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree to these terms, you must not use our services.
+                            By creating an account, accessing, or using <strong>RentYourDate</strong>, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree to these terms, you must not use our services.
                         </p>
                     </CardContent>
                 </Card>
@@ -95,7 +95,7 @@ const Terms = () => {
                     </CardHeader>
                     <CardContent className="pt-6 text-muted-foreground leading-relaxed">
                         <p>
-                            <strong>Rent-A-Boyfriend</strong> is a platform provided "as is" and "as available". We make no representations or warranties of any kind, express or implied, regarding the operation of the platform or the information, content, or services included on it.
+                            <strong>RentYourDate</strong> is a platform provided "as is" and "as available". We make no representations or warranties of any kind, express or implied, regarding the operation of the platform or the information, content, or services included on it.
                         </p>
                         <p className="mt-4">
                             We do not guarantee that the services will be uninterrupted or error-free. You expressly agree that your use of the platform is at your sole risk.
@@ -115,7 +115,7 @@ const Terms = () => {
                     </CardHeader>
                     <CardContent className="pt-6 text-muted-foreground">
                         <p>
-                            These Terms shall be governed by and defined following the laws of India. Rent-A-Boyfriend and yourself irrevocably consent that the courts of India shall have exclusive jurisdiction to resolve any dispute which may arise in connection with these terms.
+                            These Terms shall be governed by and defined following the laws of India. RentYourDate and yourself irrevocably consent that the courts of India shall have exclusive jurisdiction to resolve any dispute which may arise in connection with these terms.
                         </p>
                     </CardContent>
                 </Card>

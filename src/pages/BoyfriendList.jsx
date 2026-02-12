@@ -5,6 +5,7 @@ import { Slider } from "../components/ui/slider";
 import { Button } from "../components/ui/button";
 import { getBoyfriends } from "../api/api";
 import { MapPin, Loader2 } from "lucide-react";
+import MobileSwipeView from "../components/organisms/MobileSwipeView";
 
 // Mock data until API is integrated
 const MOCK_BOYFRIENDS = [
@@ -85,7 +86,6 @@ const BoyfriendList = () => {
     };
 
     // Debounce search
-    // Debounce search
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             fetchBoyfriends();
@@ -102,8 +102,6 @@ const BoyfriendList = () => {
     };
 
     const [locating, setLocating] = useState(false);
-
-    // ... existing code ...
 
     const handleEnableLocation = () => {
         if (!useLocation) {
@@ -215,11 +213,23 @@ const BoyfriendList = () => {
                             {useLocation && <Button variant="link" onClick={() => setDistance(500)}>Increase Range</Button>}
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[600px] content-start">
-                            {currentBoyfriends.map((boyfriend) => (
-                                <BoyfriendCard key={boyfriend._id} boyfriend={boyfriend} />
-                            ))}
-                        </div>
+                        <>
+                            {/* Mobile Swipe View (Visible only on small screens) */}
+                            <div className="block md:hidden">
+                                <MobileSwipeView
+                                    boyfriends={currentBoyfriends}
+                                    userLocation={location}
+                                    key={currentPage + (location ? 'loc' : '') + searchTerm}
+                                />
+                            </div>
+
+                            {/* Desktop Grid View (Hidden on small screens) */}
+                            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[600px] content-start">
+                                {currentBoyfriends.map((boyfriend) => (
+                                    <BoyfriendCard key={boyfriend._id} boyfriend={boyfriend} />
+                                ))}
+                            </div>
+                        </>
                     )}
 
                     {/* Pagination Controls */}

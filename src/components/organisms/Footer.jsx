@@ -17,7 +17,7 @@ const Footer = () => {
                     <Link to="/contact" className="hover:underline">Contact</Link>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                    &copy; {new Date().getFullYear()} Rent-A-Boyfriend. All rights reserved.
+                    &copy; {new Date().getFullYear()} RentYourDate. All rights reserved.
                 </p>
             </div>
         </footer>

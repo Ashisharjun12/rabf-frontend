@@ -41,8 +41,8 @@ const About = () => {
                         />
                         <FeatureItem
                             icon={<Shield className="w-6 h-6 text-primary" />}
-                            title="Safety First"
-                            description="Every 'Boyfriend' profile is verified manually and via AI face matching technology."
+                            title="User Safety First"
+                            description="Every profile is verified manually and via AI face matching technology. We prioritize your safety above all."
                         />
                         <FeatureItem
                             icon={<MapPin className="w-6 h-6 text-primary" />}
