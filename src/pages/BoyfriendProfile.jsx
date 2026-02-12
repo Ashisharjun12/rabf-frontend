@@ -258,7 +258,7 @@ const BoyfriendProfile = () => {
                                         onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
                                         required
                                     />
-                                    <Button type="submit" disabled={submittingReview} size="sm">
+                                    <Button type="submit" disabled={submittingReview} size="sm" className="rounded-full">
                                         {submittingReview ? "Submitting..." : "Post Review"}
                                     </Button>
                                 </form>
