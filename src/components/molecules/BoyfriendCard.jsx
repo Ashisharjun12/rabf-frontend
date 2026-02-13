@@ -1,5 +1,5 @@
 import useAuthStore from "../../store/authStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Lock, MapPin, Star } from "lucide-react";
 import verifyIcon from "../../assets/verify.png";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
@@ -8,9 +8,21 @@ import { Button } from "../ui/button";
 
 const BoyfriendCard = ({ boyfriend }) => {
     const { user } = useAuthStore();
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        if (!user) {
+            navigate("/login");
+        } else {
+            navigate(`/boyfriends/${boyfriend._id}`);
+        }
+    };
 
     return (
-        <Card className="overflow-hidden group hover:shadow-2xl transition-all duration-500 border-0 shadow-sm rounded-[2rem] bg-card h-full flex flex-col">
+        <Card
+            onClick={handleCardClick}
+            className="overflow-hidden group hover:shadow-2xl transition-all duration-500 border-0 shadow-sm rounded-[2rem] bg-card h-full flex flex-col cursor-pointer"
+        >
             <div className="aspect-[4/3] overflow-hidden relative">
                 <img
                     src={boyfriend.profileImage || boyfriend.images?.[0] || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Ym95ZnJpZW5kfGVufDB8fDB8fHww"}
@@ -66,11 +78,9 @@ const BoyfriendCard = ({ boyfriend }) => {
             </CardContent>
 
             <CardFooter className="p-6 pt-0">
-                <Link to={`/boyfriends/${boyfriend._id}`} className="w-full">
-                    <Button className="w-full rounded-full h-11 text-sm font-medium shadow-none hover:shadow-md transition-all" variant="default">
-                        View Profile
-                    </Button>
-                </Link>
+                <Button className="w-full rounded-full h-11 text-sm font-medium shadow-none hover:shadow-md transition-all cursor-pointer" variant="default">
+                    View Profile
+                </Button>
             </CardFooter>
         </Card>
     );

@@ -31,16 +31,16 @@ const Navbar = () => {
             animate={{ y: 0 }}
             className="fixed top-4 left-0 right-0 z-50 mx-auto w-[95%] max-w-7xl rounded-full border bg-background/80 backdrop-blur-md shadow-sm supports-[backdrop-filter]:bg-background/60"
         >
-            <div className="container flex h-16 items-center px-6 relative">
-                {/* Logo - Absolute Left */}
-                <div className="absolute left-6">
+            <div className="container flex h-16 items-center px-4 md:px-6 justify-between relative">
+                {/* Logo - Left */}
+                <div className="flex items-center shrink-0">
                     <Link to="/" className="text-xl font-bold tracking-tight bg-gradient-to-r from-pink-500 to-violet-600 bg-clip-text text-transparent">
                         RentYourDate
                     </Link>
                 </div>
 
-                {/* Centered Links */}
-                <div className="hidden md:flex items-center justify-center w-full gap-8 text-sm font-medium">
+                {/* Centered Links (Desktop Only) - Absolute Center to keep them centered relative to screen */}
+                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center gap-8 text-sm font-medium">
                     <Link to="/boyfriends" className="transition-colors hover:text-primary">
                         Browse
                     </Link>
@@ -59,11 +59,11 @@ const Navbar = () => {
                     </Link>
                 </div>
 
-                {/* Right Side - Absolute Right */}
-                <div className="absolute right-6 flex items-center gap-3">
+                {/* Right Side - Right */}
+                <div className="flex items-center gap-2 md:gap-3 shrink-0">
                     <ModeToggle />
                     {user ? (
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 md:gap-4">
                             <Popover onOpenChange={(open) => { if (!open) markAllRead(); }}>
                                 <PopoverTrigger asChild>
                                     <Button variant="ghost" size="icon" className="relative">
@@ -114,8 +114,8 @@ const Navbar = () => {
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" className="relative h-10 w-10 rounded-full" size="icon">
-                                        <UserAvatar user={user} className="h-10 w-10 border-2 border-primary/10 transition-all hover:border-primary/50" />
+                                    <Button variant="ghost" className="relative h-9 w-9 md:h-10 md:w-10 rounded-full" size="icon">
+                                        <UserAvatar user={user} className="h-9 w-9 md:h-10 md:w-10 border-2 border-primary/10 transition-all hover:border-primary/50" />
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-56" align="end" forceMount>
@@ -155,11 +155,11 @@ const Navbar = () => {
                     ) : (
                         <>
                             <Link to="/login">
-                                <Button variant="ghost" size="sm" className="rounded-full">
+                                <Button variant="ghost" size="sm" className="rounded-full px-2 md:px-4">
                                     Login
                                 </Button>
                             </Link>
-                            <Link to="/signup">
+                            <Link to="/signup" className="hidden sm:inline-flex">
                                 <Button size="sm" variant="default" className="rounded-full hover:opacity-90">
                                     Get Started
                                 </Button>

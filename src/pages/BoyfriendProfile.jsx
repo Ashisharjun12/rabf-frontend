@@ -235,41 +235,7 @@ const BoyfriendProfile = () => {
                         <div>
                             <h3 className="text-2xl font-bold mb-6">Reviews</h3>
 
-                            {/* Write Review Form - Only if logged in */}
-                            {user ? (
-                                <form onSubmit={handleSubmitReview} className="bg-muted/30 p-4 rounded-xl mb-6 space-y-3">
-                                    <h4 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">Write a Review</h4>
-                                    <div className="flex gap-2">
-                                        {[1, 2, 3, 4, 5].map((star) => (
-                                            <button
-                                                type="button"
-                                                key={star}
-                                                onClick={() => setNewReview({ ...newReview, rating: star })}
-                                                className={`transition-colors ${star <= newReview.rating ? 'text-amber-500' : 'text-muted-foreground/30'}`}
-                                            >
-                                                <Star className="w-6 h-6 fill-current" />
-                                            </button>
-                                        ))}
-                                    </div>
-                                    <textarea
-                                        className="w-full min-h-[80px] rounded-md border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                        placeholder="Share your experience..."
-                                        value={newReview.comment}
-                                        onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
-                                        required
-                                    />
-                                    <Button type="submit" disabled={submittingReview} size="sm" className="rounded-full">
-                                        {submittingReview ? "Submitting..." : "Post Review"}
-                                    </Button>
-                                </form>
-                            ) : (
-                                <div className="bg-muted/30 p-4 rounded-xl mb-6 text-center">
-                                    <p className="text-muted-foreground text-sm mb-2">Login to leave a review</p>
-                                    <Link to="/login">
-                                        <Button variant="outline" size="sm">Login Now</Button>
-                                    </Link>
-                                </div>
-                            )}
+                            {/* Write Review Form Removed - Reviews are now submitted via Bookings page */}
 
                             {/* Reviews List */}
                             {reviews.length > 0 ? (

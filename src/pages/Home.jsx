@@ -84,6 +84,13 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* Featured Boyfriends Preview */}
+            <section className="w-full py-20 bg-muted/20">
+                <div className="container px-4 md:px-6">
+                    <BoyfriendList />
+                </div>
+            </section>
+
             {/* Safety & Rules Section */}
             <section className="w-full py-24 bg-muted/30">
                 <div className="container px-4 md:px-6">
@@ -154,29 +161,6 @@ const Home = () => {
                             </p>
                         </motion.div>
                     </div>
-                </div>
-            </section>
-
-            {/* Featured Boyfriends Preview */}
-            <section className="w-full py-20 bg-muted/20">
-                <div className="container px-4 md:px-6">
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-                        <div className="space-y-4">
-                            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                                Featured Companions
-                            </h2>
-                            <p className="text-muted-foreground max-w-xl">
-                                Meet some of our top-rated companions ready to make your day special.
-                            </p>
-                        </div>
-                        <Link to="/boyfriends">
-                            <Button variant="ghost" className="group">
-                                View All Companions <span className="ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
-                            </Button>
-                        </Link>
-                    </div>
-
-                    <BoyfriendList />
                 </div>
             </section>
         </div>

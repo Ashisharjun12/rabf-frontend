@@ -6,6 +6,7 @@ import { Button } from "../components/ui/button";
 import { getBoyfriends } from "../api/api";
 import { MapPin, Loader2 } from "lucide-react";
 import MobileSwipeView from "../components/organisms/MobileSwipeView";
+import { Link } from "react-router-dom";
 
 // Mock data until API is integrated
 const MOCK_BOYFRIENDS = [
@@ -188,6 +189,12 @@ const BoyfriendList = () => {
                                 </div>
                             </div>
                         )}
+
+                        <Link to="/boyfriends">
+                            <Button variant="ghost" className="rounded-xl whitespace-nowrap">
+                                View All
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

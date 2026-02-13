@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { getBookings, updateBookingStatus } from "../api/api";
+import { getBookings, updateBookingStatus, createReview } from "../api/api";
 import useAuthStore from "../store/authStore";
 import { format } from "date-fns";
-import { Loader2, CheckCircle, XCircle, Clock, CalendarDays, MapPin } from "lucide-react";
+import { Loader2, CheckCircle, XCircle, Clock, CalendarDays, MapPin, Star } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
-import { toast } from "sonner"; // Assuming sonner is installed, or use native alert
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "../components/ui/dialog";
+import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
+import { toast } from "sonner";
 
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +20,13 @@ const BookingList = () => {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const isBoyfriend = user?.role === 'boyfriend';
+
+    // Review Modal State
+    const [reviewModalOpen, setReviewModalOpen] = useState(false);
+    const [selectedBooking, setSelectedBooking] = useState(null);
+    const [reviewRating, setReviewRating] = useState(5);
+    const [reviewComment, setReviewComment] = useState("");
+    const [submittingReview, setSubmittingReview] = useState(false);
 
     const fetchBookings = async () => {
         try {
@@ -44,6 +54,50 @@ const BookingList = () => {
         }
     };
 
+    const openReviewModal = (booking) => {
+        setSelectedBooking(booking);
+        setReviewRating(5);
+        setReviewComment("");
+        setReviewModalOpen(true);
+    };
+
+    const handleReviewSubmit = async () => {
+        if (!selectedBooking) return;
+        setSubmittingReview(true);
+        try {
+            // Check if backend supports creating review from booking or just generic createReview
+            // User requested: "review show ...of that date"
+            // Usually review is for a boyfriend.
+            // createReview(boyfriendId, rating, comment)
+
+            const boyfriendId = selectedBooking.boyfriend.user || selectedBooking.boyfriend._id; // Handle populated/unpopulated
+            // Wait, `selectedBooking.boyfriend` in `getBookings` response.
+            // If `isReceived` (boyfriend view), they don't review user? Usually users review boyfriends.
+            // `isBoyfriend` check: Only USERS review BOYFRIENDS.
+
+            await createReview({
+                boyfriendId: selectedBooking.boyfriend._id, // Assuming this is the ID needed
+                rating: reviewRating,
+                comment: reviewComment
+            });
+
+            toast.success("Review submitted successfully!");
+            setReviewModalOpen(false);
+            // Optionally mark booking as reviewed if backend supports it
+        } catch (error) {
+            console.error("Error submitting review:", error);
+            const errorMessage = error.response?.data?.message || "Failed to submit review";
+
+            if (errorMessage.includes("You can only review after a completed booking")) {
+                toast.error("You can give review after booking complete or date finished");
+            } else {
+                toast.error(errorMessage);
+            }
+        } finally {
+            setSubmittingReview(false);
+        }
+    };
+
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-[60vh]">
@@ -61,19 +115,13 @@ const BookingList = () => {
     const BookingCard = ({ booking, isReceived = false }) => {
         const isBoyfriendView = isReceived;
 
-        const handleCardClick = (e) => {
-            // Prevent navigation if clicking on buttons
-            if (e.target.closest("button")) return;
-
-            // Navigate to chat
-            const otherUserId = isBoyfriendView ? booking.user._id : (booking.boyfriend.user || booking.boyfriend._id);
-            navigate(`/chats/${otherUserId}`);
-        };
+        // Review button visible for all accepted bookings, but action restricted by time
+        const isPast = new Date(booking.endTime) < new Date();
+        const canReview = !isBoyfriendView && booking.status === 'accepted';
 
         return (
             <Card
-                onClick={handleCardClick}
-                className="mb-4 shadow-sm hover:shadow-md transition-all rounded-2xl border-0 bg-card/50 backdrop-blur-sm ring-1 ring-border/50 cursor-pointer group"
+                className="mb-4 shadow-sm hover:shadow-md transition-all rounded-2xl border-0 bg-card/50 backdrop-blur-sm ring-1 ring-border/50 group"
             >
                 <CardHeader className="pb-3">
                     <div className="flex justify-between items-start">
@@ -128,10 +176,25 @@ const BookingList = () => {
                         </>
                     )}
                     {booking.status === "accepted" && !isBoyfriendView && (
-                        <Button size="sm" variant="outline" className="rounded-full" asChild>
-                            {/* Future: Link to Chat */}
-                            <a href={`/chats/${booking.boyfriend.user || booking.boyfriend._id}`}>Chat Now</a>
-                        </Button>
+                        <>
+                            {canReview && (
+                                <Button size="sm" className="rounded-full bg-amber-500 hover:bg-amber-600 text-white cursor-pointer" onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (!isPast) {
+                                        toast.error("You can give review after booking complete or date finished");
+                                        return;
+                                    }
+                                    openReviewModal(booking);
+                                }}>
+                                    <Star className="w-3 h-3 mr-1 fill-current" /> Review Date
+                                </Button>
+                            )}
+
+                            <Button size="sm" variant="outline" className="rounded-full" asChild onClick={(e) => e.stopPropagation()}>
+                                {/* Link to Chat with correct User ID (Avoid falling back to boyfriend profile ID) */}
+                                <a href={`/chats/${booking.boyfriend?.user?._id || booking.boyfriend?.user}`}>Chat Now</a>
+                            </Button>
+                        </>
                     )}
                 </CardFooter>
             </Card>
@@ -187,6 +250,46 @@ const BookingList = () => {
                     </TabsContent>
                 )}
             </Tabs>
+            {/* Review Modal */}
+            <Dialog open={reviewModalOpen} onOpenChange={setReviewModalOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Review your Date</DialogTitle>
+                        <DialogDescription>
+                            How was your experience with {selectedBooking?.boyfriend?.name}?
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="flex justify-center gap-2">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                    type="button"
+                                    key={star}
+                                    onClick={() => setReviewRating(star)}
+                                    className={`transition-colors p-1 ${star <= reviewRating ? 'text-amber-500' : 'text-muted-foreground/30'}`}
+                                >
+                                    <Star className="w-8 h-8 fill-current" />
+                                </button>
+                            ))}
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="comment">Your Comment</Label>
+                            <Textarea
+                                id="comment"
+                                placeholder="Tell us about your date..."
+                                value={reviewComment}
+                                onChange={(e) => setReviewComment(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setReviewModalOpen(false)}>Cancel</Button>
+                        <Button onClick={handleReviewSubmit} disabled={submittingReview}>
+                            {submittingReview ? "Submitting..." : "Submit Review"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion, useMotionValue, useTransform, useAnimation } from "framer-motion";
-import { ArrowLeft, ArrowRight, MapPin, Info, Undo2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, MapPin, Info, Undo2, Lock } from "lucide-react";
 import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom"; // Added useNavigate
 import verifyIcon from "../../assets/verify.png";
+import useAuthStore from "../../store/authStore";
 
 const MobileSwipeView = ({ boyfriends, userLocation }) => {
+    const { user } = useAuthStore();
     const [index, setIndex] = useState(0);
     const [exitX, setExitX] = useState(0);
     const navigate = useNavigate(); // Added hook
@@ -82,7 +84,11 @@ const MobileSwipeView = ({ boyfriends, userLocation }) => {
 
     const handleTap = (event, info) => {
         // Navigate to profile on tap
-        navigate(`/boyfriends/${currentProfile._id}`);
+        if (!user) {
+            navigate("/login");
+        } else {
+            navigate(`/boyfriends/${currentProfile._id}`);
+        }
     };
 
     useEffect(() => {
@@ -147,13 +153,23 @@ const MobileSwipeView = ({ boyfriends, userLocation }) => {
                     {/* Image Section - Tap to View Profile */}
                     <motion.div
                         onTap={handleTap}
-                        className="relative h-[65%] w-full bg-muted cursor-pointer"
+                        className="relative h-[65%] w-full bg-muted cursor-pointer group"
                     >
                         <img
                             src={currentProfile.profileImage || currentProfile.images[0]}
                             alt={currentProfile.name}
-                            className="w-full h-full object-cover pointer-events-none"
+                            className={`w-full h-full object-cover pointer-events-none transition-all duration-300 ${!user ? 'blur-md' : ''}`}
                         />
+
+                        {/* Lock Overlay for Unauthenticated Users */}
+                        {!user && (
+                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] z-20">
+                                <div className="w-12 h-12 rounded-full bg-background/20 backdrop-blur-md flex items-center justify-center mb-2">
+                                    <Lock className="w-6 h-6 text-white" />
+                                </div>
+                                <span className="text-white font-semibold text-sm drop-shadow-md">Login to view</span>
+                            </div>
+                        )}
 
                         {/* Overlay Gradients */}
                         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60 pointer-events-none" />
