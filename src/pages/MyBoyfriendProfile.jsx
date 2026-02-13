@@ -14,7 +14,7 @@ import useAuthStore from "../store/authStore";
 
 const MyBoyfriendProfile = () => {
     const navigate = useNavigate();
-    const { user } = useAuthStore();
+    const { user, checkAuth } = useAuthStore();
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -174,6 +174,7 @@ const MyBoyfriendProfile = () => {
 
             setBoyfriend(data);
             setIsEditing(false);
+            await checkAuth(); // Refresh user state to update UI everywhere
         } catch (error) {
             console.error("Save failed", error);
             toast.error(error.response?.data?.message || "Failed to save profile");

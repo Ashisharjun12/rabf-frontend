@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import useAuthStore from "../store/authStore";
 import { toast } from "sonner";
+import notificationSound from "../assets/instagram.mp3";
 
 const NotificationContext = createContext();
 
@@ -42,6 +43,10 @@ export const NotificationProvider = ({ children }) => {
                     // Handle Notification
                     setNotifications(prev => [data, ...prev]);
                     setUnreadCount(prev => prev + 1);
+
+                    // Play Sound
+                    const audio = new Audio(notificationSound);
+                    audio.play().catch(err => console.error("Audio play failed", err));
 
                     // Show Toast
                     toast(data.message, {

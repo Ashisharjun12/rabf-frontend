@@ -47,6 +47,9 @@ importers:
       framer-motion:
         specifier: ^12.34.0
         version: 12.34.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      imagekit-javascript:
+        specifier: ^4.0.1
+        version: 4.0.1
       input-otp:
         specifier: ^1.4.2
         version: 1.4.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -2523,6 +2526,10 @@ packages:
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
+
+  imagekit-javascript@4.0.1:
+    resolution: {integrity: sha512-V3eVMz7OW8w8dSNJXPtVcWQMdV0P1wRs+Bftb2B1bKRl8NjOf+NGRWYb/meJlrmSL/HxT68PjM92/XFB+9ZfJA==}
+    deprecated: Please use @imagekit/javascript
 
   import-fresh@3.3.1:
     resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}
@@ -6041,6 +6048,8 @@ snapshots:
       safer-buffer: 2.1.2
 
   ignore@5.3.2: {}
+
+  imagekit-javascript@4.0.1: {}
 
   import-fresh@3.3.1:
     dependencies:

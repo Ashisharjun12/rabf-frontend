@@ -86,7 +86,7 @@ const Verification = () => {
     // Check for magic link login (Mobile) - REMOVED (Handled by /handover)
 
     // Fetch Profile & Prepare for Verification (Runs when user is available)
-    const { user } = useAuthStore();
+    const { user, checkAuth } = useAuthStore();
 
     useEffect(() => {
         const prepareVerification = async () => {
@@ -176,6 +176,7 @@ const Verification = () => {
             // Threshold: 0.6 is standard. Lower is stricter.
             if (distance < 0.6) {
                 await verifyUser();
+                await checkAuth(); // Refresh user state to update UI everywhere
                 setMessage("Verified! Redirecting...");
                 setTimeout(() => navigate("/"), 2000);
             } else {

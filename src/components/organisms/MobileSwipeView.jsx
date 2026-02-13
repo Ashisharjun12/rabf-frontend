@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { motion, useMotionValue, useTransform, useAnimation } from "framer-motion";
 import { ArrowLeft, ArrowRight, MapPin, Info, Undo2 } from "lucide-react";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Added useNavigate
 import verifyIcon from "../../assets/verify.png";
 
 const MobileSwipeView = ({ boyfriends, userLocation }) => {
     const [index, setIndex] = useState(0);
     const [exitX, setExitX] = useState(0);
+    const navigate = useNavigate(); // Added hook
 
     const x = useMotionValue(0);
     const rotate = useTransform(x, [-150, 0, 150], [-45, 0, 45], {
@@ -79,6 +80,11 @@ const MobileSwipeView = ({ boyfriends, userLocation }) => {
         }
     };
 
+    const handleTap = (event, info) => {
+        // Navigate to profile on tap
+        navigate(`/boyfriends/${currentProfile._id}`);
+    };
+
     useEffect(() => {
         // Reset animation state for new card
         x.set(0);
@@ -129,6 +135,7 @@ const MobileSwipeView = ({ boyfriends, userLocation }) => {
             <div className="relative w-full h-[500px] perspective-1000">
 
                 {/* Active Card (Foreground) */}
+                {/* Active Card (Foreground) */}
                 <motion.div
                     style={{ x, rotate }}
                     animate={controls}
@@ -137,8 +144,11 @@ const MobileSwipeView = ({ boyfriends, userLocation }) => {
                     onDragEnd={handleDragEnd}
                     className="absolute top-0 left-0 w-full h-full bg-background rounded-3xl border shadow-2xl overflow-hidden cursor-grab active:cursor-grabbing flex flex-col"
                 >
-                    {/* Image Section */}
-                    <div className="relative h-[75%] w-full bg-muted">
+                    {/* Image Section - Tap to View Profile */}
+                    <motion.div
+                        onTap={handleTap}
+                        className="relative h-[65%] w-full bg-muted cursor-pointer"
+                    >
                         <img
                             src={currentProfile.profileImage || currentProfile.images[0]}
                             alt={currentProfile.name}
@@ -170,7 +180,7 @@ const MobileSwipeView = ({ boyfriends, userLocation }) => {
                                 )}
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Details Section */}
                     <div className="flex-1 p-4 bg-background flex flex-col justify-between">
